@@ -1,0 +1,30 @@
+Package: cosmiq
+Type: Package
+Title: cosmiq - COmbining Single Masses Into Quantities
+Version: 0.99.1
+Date: 2014-05-13
+Author: David Fischer <dajofischer@googlemail.com>, Christian Panse
+        <cp@fgcz.ethz.ch>, Endre Laczko <endre.laczko@fgcz.uzh.ch>
+Maintainer: David Fischer <dajofischer@googlemail.com>, Christian Panse
+        <cp@fgcz.ethz.ch>
+Depends: R (>= 3.0.2), Rcpp
+Imports: pracma, xcms, MassSpecWavelet, faahKO
+Suggests: RUnit, BiocGenerics
+Description: cosmiq is a tool for the preprocessing of liquid- or gas -
+        chromatography mass spectrometry (LCMS/GCMS) data with a focus
+        on metabolomics or lipidomics applications. To improve the
+        detection of low abundant signals, cosmiq generates master maps
+        of the mZ/RT space from all acquired runs before a peak
+        detection algorithm is applied. The result is a more robust
+        identification and quantification of low-intensity MS signals
+        compared to conventional approaches where peak picking is
+        performed in each LCMS/GCMS file separately. The cosmiq package
+        builds on the xcmsSet object structure and can be therefore
+        integrated well with the package xcms as an alternative
+        preprocessing step.
+License: GPL-3
+URL: http://fgcz-data.uzh.ch/~cpanse/cosmiq/
+Collate: combine_spectra.R peakdetection.R eicmatrix.R retention_time.R
+        quantify_combined.R create_datamatrix.R cosmiq.R
+LazyData: false
+biocViews: MassSpectrometry, Metabolomics

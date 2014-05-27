@@ -1,0 +1,23 @@
+
+importFrom("pracma", zeros)
+importFrom("pracma", size)
+importFrom("pracma", interp1)
+importFrom("pracma", isempty)
+importFrom("pracma", meshgrid)
+
+import("MassSpecWavelet")
+import("xcms")
+import("Rcpp")
+
+import("faahKO")
+
+useDynLib(cosmiq, cosmiq_DescendMin=DescendMin, .registration = TRUE, .fixes = "C_")
+# exportPattern("^[^\\.]")
+
+export("combine_spectra")
+export("create_datamatrix")
+export("peakdetection")
+export("retention_time")
+export("cosmiq")
+export("eicmatrix")
+export("quantify_combined")
