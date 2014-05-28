@@ -1,13 +1,14 @@
 /*
-	taken from teh util.c file from the xcms package
+
+taken from the xcms package util.c file 
 http://www.bioconductor.org/packages/release/bioc/src/contrib/xcms_1.38.0.tar.gz
 
-	this file remains as long as the DescendMin function is not exported in xcms.
+this file remains as long as the DescendMin 
+function is not exported in xcms.
 
-	Christian Panse <cp@fgcz.ethz.ch>
-	Sat Mar 29 10:04:24 CET 2014
+Christian Panse <cp@fgcz.ethz.ch>
+Sat Mar 29 10:04:24 CET 2014
 
-	
 */
 
 #include <R.h>
@@ -31,7 +32,6 @@ void DescendMin(double *yvals, int *numin, int *istart,
 }
 
 
-//static const R_CallMethodDef cMethods[] = { 
 static const R_CMethodDef CEntries[] = { 
     {"DescendMin", (DL_FUNC) &DescendMin, 5},
     {NULL, NULL, 0} 

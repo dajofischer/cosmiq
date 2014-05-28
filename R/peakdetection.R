@@ -6,9 +6,9 @@
         y <- as.double(y)
 
     unlist(.C(cosmiq_DescendMin, y, length(y), 
-	as.integer(istart - 1), 
-	ilower = integer(1), 
-	iupper = integer(1))[4:5]) + 1
+    as.integer(istart - 1), 
+    ilower = integer(1), 
+    iupper = integer(1))[4:5]) + 1
 }
 
 

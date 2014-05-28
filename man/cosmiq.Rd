@@ -107,7 +107,8 @@ See also \code{xcms::retcor.obiwarp} and \code{cosmiq::create_datamatrix} which
 executes each step of the cosmiq function.
 
 
-For running examples please read the package vignette or \code{?cosmiq::create_datamatrix}.
+For running examples please read the package vignette 
+or \code{?cosmiq::create_datamatrix}.
 
 }
 
