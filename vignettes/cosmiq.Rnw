@@ -1,61 +1,34 @@
 %\VignetteIndexEntry{cosmiq primer}
 \documentclass[12pt]{article}
 
-\usepackage[utf8]{inputenc}
-\usepackage{amsmath,pstricks}
-\usepackage{hyperref}
-\usepackage[numbers]{natbib}
-\usepackage{color}
-\usepackage[scaled]{helvet}
-\renewcommand*\familydefault{\sfdefault}
 
-\definecolor{NoteGrey}{rgb}{0.96,0.97,0.98}
+<<style-Sweave, eval=TRUE, echo=FALSE, results=tex>>=
+BiocStyle::latex()
+@
 
-\textwidth=6.2in
-\textheight=9.5in
-@ \parskip=.3cm
-\oddsidemargin=.1in
-\evensidemargin=.1in
-\headheight=-1in
+\title{\Biocpkg{cosmiq} - COmbining Single Masses Into Quantities}
 
-\newcommand{\scscst}{\scriptscriptstyle}
-\newcommand{\scst}{\scriptstyle}
-\newcommand{\Rfunction}[1]{{\texttt{#1}}}
-\newcommand{\Robject}[1]{{\texttt{#1}}}
-\newcommand{\Rpackage}[1]{{\textit{#1}}}
-\newcommand{\code}[1]{{\texttt{#1}}}
-
-\author{David Fischer \and Christian Panse \and Endre Laczko}
-\begin{document}
-\title{\texttt{cosmiq} -- COmbining Single Masses Into Quantities}
-
-\maketitle
-
-
-\fcolorbox{black}{NoteGrey} {
-\begin{minipage}{13.5cm}
-\vspace{0.5cm}
-\begin{center}
-\textbf{ Vignette for package version $\ge v.0.99.1$}\\
-\vspace{0.5cm}
-Recent changes, updates, and  new features:
-\begin{itemize}
-\item reduced rt window to decreasse the overall vignette compilation time
-\item improved vignette and man pages
-\end{itemize}
-\end{center}
-\vspace{0.5cm}
-\end{minipage}
+\author{
+    David Fischer\\
+    Christian Panse\\
+    Endre Laczko
 }
 
+
+\begin{document}
+\maketitle
 \tableofcontents
 \newpage
 
+%\item reduced rt window to decreasse the overall vignette compilation time
+%\item improved vignette and man pages
+
+
 \section{Introduction}
 
-\code{cosmiq} is a tool for the preprocessing of liquid- or 
+\Biocpkg{cosmiq} is a tool for the preprocessing of liquid- or 
 gas-chromatography mass spectrometry (LCMS/GCMS) data with a focus 
-on metabolomics or lipidomics applications. \code{cosmiq} has been 
+on metabolomics or lipidomics applications. \Biocpkg{cosmiq} has been 
 developed and has shown to be effective using liquid 
 ultra performance capillary chromatography 
 coupled with high accuracy mass data ({\em full width at half maximun} 
@@ -65,11 +38,11 @@ approx. 500MBytes each (see also
 \cite[to be published]{DavidFischerPhd2014}).
 
 Because those high resolution data are too huge for beeing included 
-in the package we will demonstate the usage of the \code{cosmiq} 
-package using the smaller \code{faahKO} data set which is already 
+in the package we will demonstate the usage of the \Biocpkg{cosmiq} 
+package using the smaller \Biocexptpkg{faahKO} data set which is already 
 available on Bioconductor.
 
-The following code of the \code{cosmiq} wrapper function shows a 
+The following code of the \Rfunction{cosmiq} wrapper function shows a 
 typical usage:
 
 <<keep.source = TRUE, eval = FALSE, fig = FALSE>>=
@@ -90,7 +63,7 @@ head(x$xs@peaks)
 @
 
 
-The \code{cosmiq} function is composed of the following steps:
+The \Rcode{cosmiq} function is composed of the following steps:
 \begin{itemize}
 \item Combining spectra
 \item Detecting mz peaks on master spectrum
@@ -101,11 +74,11 @@ The \code{cosmiq} function is composed of the following steps:
 \item Quantifying mz/RT features
 \end{itemize}
 
-\code{cosmiq} uses the \code{xcms} object structur for 
+\Rcode{cosmiq} uses the \Biocpkg{xcms} \cite{xcms2008} object structur for 
 handling the data.
 The following pages of this vignette are indented to 
 demonstrate how all the steps can be run manually using the 
-\code{faahKO} data set. 
+\Biocexptpkg{faahKO} data set. 
 
 <<echo=FALSE>>=
 options(width=80)
@@ -114,7 +87,7 @@ options(width=80)
 \section{LCMS feature detection step by step using cosmiq}
 \subsection{The Input}
 
-The faah knockout dataset \cite{faahKO} will be used as input.
+The \Biocexptpkg{faah} knockout dataset \cite{faahKO} will be used as input.
 
 <<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
 library(cosmiq)
@@ -129,8 +102,8 @@ xs <- new("xcmsSet")
 xs@filepaths <- my.input.files
 @
 
-Define the \code{phenoData}. This is usually done by 
-the unexported method \code{xcms\-:::\-phenoDataFromPaths}.
+Define the \Rcode{phenoData}. This is usually done by 
+the unexported method \Rfunction{xcms:::phenoDataFromPaths}.
 
 <<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
 class <- as.data.frame(c(rep("KO",6),rep("WT", 6)))
@@ -138,7 +111,7 @@ rownames(class) <- basename(my.input.files)
 xs@phenoData <- class
 @
 
-The \code{xcms} object \code{xs} will be used as container 
+The \Biocpkg{xcms} object \Robject{xs} will be used as container 
 to keep all the data.
 <<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
 attributes(xs)
@@ -210,7 +183,7 @@ the comparison of different LCMS datasets it is important to
 consider RT shifts. These shifts are typically caused by technical 
 variations and need to be corrected before chromatographic peaks 
 between different LCMS runs are aligned. For this purpose cosmiq 
-implements \code{xcms} retention time alignment using the obiwarp 
+implements \Rcode{xcms} retention time alignment using the obiwarp 
 algorithm. For each detected mass in step 2.3 we calculate an 
 extracted ion chromatogram (EIC). In order to determine the elution 
 time for each detected mass, the EICs of every mass are combined 
@@ -322,14 +295,11 @@ head(peaktable[idx,])
 @
 
 
-\section{TODO for the next release}
+\section{Session information}
+An overview of the package versions used to produce this document are shown below.
+<<sessioninfo, results=tex, echo=FALSE>>=
+toLatex(sessionInfo())
+@
 
-\begin{itemize}
-\item Replace the \code{pracma} package by R functions.
-\end{itemize}
-
-\nocite{xcms2008, DavidFischerPhd2014}
-
-\bibliography{cosmiq}{}
-\bibliographystyle{plain}
+\bibliography{cosmiq}
 \end{document}
