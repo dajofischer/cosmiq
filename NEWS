@@ -1,1 +1,6 @@
-No changes. Version changed due to package propagation.
+CHANGES IN VERSION 0.99.1
+-------------------------
+
+USER VISIBLE CHANGES
+
+    o reduced rt window to decreasse the overall vignette compilation time
