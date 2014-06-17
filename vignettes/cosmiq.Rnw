@@ -10,19 +10,14 @@ BiocStyle::latex()
 
 \author{
     David Fischer\\
-    Christian Panse\\
+    Christian Panse\thanks{\email{cp@fgcz.ethz.ch}}\\
     Endre Laczko
 }
-
 
 \begin{document}
 \maketitle
 \tableofcontents
 \newpage
-
-%\item reduced rt window to decreasse the overall vignette compilation time
-%\item improved vignette and man pages
-
 
 \section{Introduction}
 
@@ -87,7 +82,7 @@ options(width=80)
 \section{LCMS feature detection step by step using cosmiq}
 \subsection{The Input}
 
-The \Biocexptpkg{faah} knockout dataset \cite{faahKO} will be used as input.
+The faah knockout dataset \cite{faahKO} will be used as input.
 
 <<keep.source = TRUE, eval = TRUE, fig = FALSE>>=
 library(cosmiq)
