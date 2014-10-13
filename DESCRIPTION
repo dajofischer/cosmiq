@@ -1,7 +1,7 @@
 Package: cosmiq
 Type: Package
 Title: cosmiq - COmbining Single Masses Into Quantities
-Version: 1.0.0
+Version: 1.1.0
 Author: David Fischer <dajofischer@googlemail.com>, Christian Panse
         <cp@fgcz.ethz.ch>, Endre Laczko <endre.laczko@fgcz.uzh.ch>
 Maintainer: David Fischer <dajofischer@googlemail.com>, Christian Panse
