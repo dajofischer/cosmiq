@@ -1,0 +1,425 @@
+%\VignetteIndexEntry{13th Annual Conference of the Metabolomics Society (in portrait)}
+\documentclass[portrait,a0]{a0poster}
+
+\usepackage{multicol}
+
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{float}
+\usepackage{subfigure}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage[latin1]{inputenc}
+\usepackage[authoryear,round]{natbib}
+\usepackage{sidecap}
+\usepackage[scaled]{helvet}
+\usepackage[latin1]{inputenc}
+\graphicspath{{./graphics/}}
+\urlstyle{same}
+
+%\makesavenoteenv{tabular}
+
+
+\addtolength{\textwidth}{1cm}
+\addtolength{\oddsidemargin}{-1cm}
+\setlength{\topmargin}{-2.6cm}
+\setlength{\headheight}{0cm}
+\setlength{\headsep}{0cm}
+\setlength{\footskip}{0cm}
+\setlength{\columnsep}{3cm}
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{2ex}
+\pagestyle{empty}
+\newcommand{\scscst}{\scriptscriptstyle}
+\newcommand{\scst}{\scriptstyle}
+\renewcommand{\familydefault}{phv}
+\renewcommand*\familydefault{\sfdefault}
+\definecolor{NTNUBlue}{rgb}{0,0.6,1}
+\definecolor{FGCZ}{rgb}{0,0.6,1}
+\makeatletter
+\renewcommand{\section}{\@startsection
+        {section}%                          % the name
+        {1}%                                % the level
+        {0mm}%                              % the indent
+        {-\baselineskip}%                   % the beforeskip
+        {1mm}%                              % the afterskip
+        {\Large\color{NTNUBlue}\bfseries}}% % the style
+\renewcommand{\subsection}{\@startsection
+        {subsection}%                       % the name
+        {2}%                                % the level
+        {0mm}%                              % the indent
+        {-0.9\baselineskip}%                % the beforeskip
+        {1mm}%                              % the afterskip
+        {\large\color{NTNUBlue}\bfseries}}% % the style
+\renewcommand{\subsubsection}{\@startsection
+        {subsubsection}%                    % the name
+        {3}%                                % the level
+        {0mm}%                              % the indent
+        {-0.7\baselineskip}%                % the beforeskip
+        {1mm}%                              % the afterskip
+        {\color{NTNUBlue}\bfseries}}% % the style
+\makeatother
+
+\def\subfigtopskip{-1pt}       % Length from the top of the subfigure box to
+                               %   the begining of the FIGURE box.
+\def\subfigbottomskip{-1pt}    % Length from the bottom of the CAPTION to
+                               %   the bottom of the subfigure.
+\def\subfigcapskip{-1pt}       % Length from the bottom of the FIGURE to the
+                               %   begining of the CAPTION.
+\def\subfigcapmargin{-1pt}     % Indentation of the caption from the sides
+                               %   of the subfigure box.
+
+%\renewcommand{\normalsize}{\fontsize{24.88}{30}\selectfont}
+\renewcommand{\normalsize}{\fontsize{20.74}{25}\selectfont}
+%\renewcommand{\normalsize}{\fontsize{22.00}{26.52}\selectfont}
+
+
+\usepackage{eso-pic}
+\newcommand\BackgroundPic{
+\put(0,0){
+\parbox[b][\paperheight]{\paperwidth}{%
+\vfill
+\centering
+%\includegraphics[width=\paperwidth,height=\paperheight, keepaspectratio]{background}
+\vfill
+}}}
+
+
+<<style-Sweave, eval=TRUE, echo=FALSE, results=tex>>=
+BiocStyle::latex()
+options(prompt = "R> ", continue = "+  ", width = 60, useFancyQuotes = FALSE)
+@
+
+\begin{document}
+%\SweaveOpts{prefix.string=plot, eps = FALSE, pdf = TRUE}
+\SweaveOpts{prefix.string = graphics/cosmiq, eval = FALSE, eps = FALSE, pdf = TRUE}
+\SweaveOpts{concordance=TRUE}
+\AddToShipoutPicture{\BackgroundPic}
+
+\begin{center}
+\noindent\centerline{\includegraphics[width=\paperwidth]{FGCZ_Poster_Header_2014}}\\[2cm]
+
+\parbox{0.95\textwidth}{
+
+\resizebox{.95\textwidth}{!}{
+\textsf{ \textbf{{\Huge cosmiq - COmbining Single Masses Into Quantities}}}\\[2.0cm]
+}
+
+\vspace{0.5cm}
+
+\resizebox{.9\textwidth}{!}{\hspace{3.5cm} David Fischer$^\ddag$, Christian Panse$^\diamond$, and Endre Laczko$^\diamond$}\\[1.0cm]
+}
+
+\end{center}
+\vspace{0.5cm}
+\begin{multicols}{4}
+\setlength{\columnseprule}{1pt}
+
+
+\section{Introduction}
+
+\Biocpkg{cosmiq} is a tool for the preprocessing of liquid- or 
+gas-chromatography mass spectrometry (LCMS/GCMS) data with a focus 
+on metabolomics or lipidomics applications. \Biocpkg{cosmiq} has been 
+developed and has shown to be effective using liquid 
+ultra performance capillary chromatography 
+coupled with high accuracy mass data ({\em full width at half maximun} 
+> 20000), e.g. using TOF or Q-TOF type mass spectrometer. The 
+data we have used consists of one hundreds files having a size of 
+approx. 500MBytes each (see also 
+\cite[to be published]{DavidFischerPhd2014}).
+
+Because those high resolution data are too huge for beeing included 
+in the package we will demonstate the usage of the \Biocpkg{cosmiq} 
+package using the smaller \Biocexptpkg{faahKO} data set which is already 
+available on Bioconductor.
+
+The following code of the \Rfunction{cosmiq} wrapper function shows a 
+typical usage:
+
+<<keep.source = TRUE, eval = FALSE, fig = FALSE>>=
+library(cosmiq)
+cdfpath <- file.path(find.package("faahKO"), "cdf")
+
+my.input.files <- dir(c(paste(cdfpath, "WT", sep='/'), 
+	paste(cdfpath, "KO", sep='/')), full.names=TRUE)
+
+# run cosmiq wrapper function
+#
+x <- cosmiq(files=my.input.files, mzbin=0.25, SNR.Th=0, linear=TRUE)
+# 
+
+# graph result
+image(t(x$eicmatrix), main='mz versus RT map')
+head(x$xs@peaks)
+@
+
+
+The \Rcode{cosmiq} function is composed of the following steps:
+\begin{itemize}
+\item Combining spectra
+\item Detecting mz peaks on master spectrum
+\item Quantifying masses
+\item RT correction
+\item Computing the EIC matrix
+\item Detecting chromatographic peaks from EIC matrix
+\item Quantifying mz/RT features
+\end{itemize}
+
+\Rcode{cosmiq} uses the \Biocpkg{xcms} \cite{xcms2008} object structur for 
+handling the data.
+The following pages of this vignette are indented to 
+demonstrate how all the steps can be run manually using the 
+\Biocexptpkg{faahKO} data set. 
+
+<<echo=FALSE>>=
+options(width=80)
+@
+
+\section{LCMS feature detection step by step using cosmiq}
+\subsection{The Input}
+
+The faah knockout dataset \cite{faahKO} will be used as input.
+
+<<keep.source = TRUE, fig = FALSE>>=
+library(cosmiq)
+cdfpath <- file.path(find.package("faahKO"), "cdf")
+my.input.files <- dir(c(paste(cdfpath, "WT", sep='/'), 
+	paste(cdfpath, "KO", sep='/')), full.names=TRUE)
+
+#
+# create xcmsSet object
+# todo
+xs <- new("xcmsSet")
+xs@filepaths <- my.input.files
+@
+
+Define the \Rcode{phenoData}. This is usually done by 
+the unexported method \Rfunction{xcms:::phenoDataFromPaths}.
+
+<<keep.source = TRUE, fig = FALSE>>=
+class <- as.data.frame(c(rep("KO",6),rep("WT", 6)))
+rownames(class) <- basename(my.input.files)
+xs@phenoData <- class
+@
+
+The \Biocpkg{xcms} object \Robject{xs} will be used as container 
+to keep all the data.
+<<keep.source = TRUE, fig = FALSE>>=
+attributes(xs)
+@
+
+\subsection{Combination of mass spectra}
+
+The first two processing steps search for relevant mass bins in the 
+dataset. In order to select for optimal bins, we first calculate a 
+combined spectrum. This approach of overlaying and summing 
+intensities of single scans together is usual for applications 
+in flow injection mass spectrometry and aims to improve ion 
+statistics. Not only are mass spectra from all scans from a single LCMS 
+run combined but from all acquired datasets. As a result,
+signal to noise ratio increases for each additional LCMS run
+and a master list of observed mass is generated.
+
+%TODO:FIG
+<<label=combined, keep.source = TRUE, fig = TRUE, include = FALSE>>=
+
+x <- combine_spectra(xs=xs, mzbin=0.25, 
+	linear=TRUE, continuum=FALSE)
+
+plot(x$mz, x$intensity, type='l',
+	main='combined spectra',
+	xlab='m/Z', ylab='ion intensity')
+
+@
+
+\resizebox{1.0\columnwidth}{!}{
+	\includegraphics{graphics/cosmiq-combined}
+}
+
+\subsection{Detection of relevant masses}
+
+Based on this combined master mass spectrum we then determine location and 
+boundaries of each observed mass. A modified peak detection algorithm based on 
+continuous wavelet transformation (CWT) is used for this step 
+\cite{massspecwavelet2006}. Peak detection based on CWT has the 
+advantage that a sliding scale of wavelets instead of a single 
+filter function with fixed wavelength is used. This allows for a 
+flexible and automatic approximation of the peak width. As a result 
+it is possible to locate both narrow and broad peaks within a given 
+dynamic range. The CWT algorithm was modified in order to consider 
+overlapping peaks \cite{DavidFischerPhd2014}.
+            
+%TODO:FIG
+<<label=plot2, keep.source = TRUE, fig = TRUE, include = FALSE>>=
+
+xy <- peakdetection(x=x$mz, y=x$intensity, 
+    scales=1:10, 
+    SNR.Th=1.0, 
+    SNR.area=20, mintr=0.5)
+
+id.peakcenter<-xy[,4]
+
+filter.mz <- 400 < x$mz & x$mz < 450
+plot(x$mz[filter.mz], x$intensity[filter.mz], 
+    main='Detection of relevant masses',
+    type='l',
+    xlab='m/Z', 
+    ylab='ion intensity')
+
+points(x$mz[id.peakcenter], 
+    x$intensity[id.peakcenter], 
+    col='red', type='h')
+
+@
+
+\subsection{Generation and combination of extracted ion chromatograms}
+
+Until now only the mz information was considered. In the following 
+processing steps the chromatographic information will be added. For 
+the comparison of different LCMS datasets it is important to 
+consider RT shifts. These shifts are typically caused by technical 
+variations and need to be corrected before chromatographic peaks 
+between different LCMS runs are aligned. For this purpose cosmiq 
+implements \Rcode{xcms} retention time alignment using the obiwarp 
+algorithm. For each detected mass in step 2.3 we calculate an 
+extracted ion chromatogram (EIC). In order to determine the elution 
+time for each detected mass, the EICs of every mass are combined 
+between all acquired runs. Again, this combination approach aims for 
+an improvement of the signal-to-noise ratio (SNR).
+
+<<keep.source = TRUE, fig = FALSE>>=
+
+# create dummy object
+xs@peaks <- matrix(c(rep(1, length(my.input.files) * 6), 
+	1:length(my.input.files)), ncol=7)
+
+colnames(xs@peaks) <- c("mz", "mzmin", "mzmax", "rt", 
+	"rtmin", "rtmax", "sample")
+
+xs <- xcms::retcor(xs, method="obiwarp", profStep=1, 
+	distFunc="cor", center=1)
+
+@
+
+\subsection{Detection of chromatographic peaks}
+
+Based on the combined EICs there is another peak detection step to 
+be performed. The algorithm as described for the peak picking of m/z 
+signals in Step 2.3 is used also for peak picking in the retention 
+time domain. The final result is a peak table with location and 
+boundaries of each mz/RT feature. This information will be further 
+used to locate the relevant position in every single LCMS dataset in 
+order to quantify sample specific feature intensities. Because the 
+mz/RT features were detected on the combined mass spectra or EICs of 
+all samples it is not necessary to align features between different 
+LCMS runs as for a typical raw data processing workflow. Instead, a 
+data matrix with intensity values for every mz/RT feature and every 
+sample can be immediately calculated.
+
+%TODO:fig
+<<label=image, keep.source = TRUE, fig = TRUE, include = FALSE>>=
+
+eicmat <- eicmatrix(xs=xs, xy=xy, center=1)
+
+#
+#  process a reduced mz range for a better package build performance
+(eicmat.mz.range <- range(which(475 < xy[,1] & xy[,1] < 485)))
+
+eicmat.filter <- eicmat[eicmat.mz.range[1]:eicmat.mz.range[2],]
+xy.filter <- xy[eicmat.mz.range[1]:eicmat.mz.range[2],]
+
+#
+# determine the new range and plot the mz versus RT map
+(rt.range <- range(as.double(colnames(eicmat.filter))))
+(mz.range<-range(as.double(row.names(eicmat.filter))))
+
+image(log(t(eicmat.filter))/log(2), 
+    main='overlay of 12 samples using faahKO',
+    col=rev(gray(1:20/20)),
+    xlab='rt [in seconds]', 
+    ylab='m/z', axes=FALSE)
+
+axis(1, seq(0,1, length=6), 
+    round(seq(rt.range[1], rt.range[2], length=6)))
+
+axis(2, seq(0,1, length=4), 
+    round(seq(mz.range[1], mz.range[2], length=4), 2))
+
+#
+# determine the chromatographic peaks
+rxy <- retention_time(xs=xs, 
+    RTscales=c(1:10, seq(12,32, by=2)), 
+    xy=xy.filter, 
+    eicmatrix=eicmat.filter, 
+    RTSNR.Th=120, RTSNR.area=20)
+
+rxy.rt <- (rxy[,4] - rt.range[1]) / diff(rt.range)
+rxy.mz <- (rxy[,1] - mz.range[1]) / diff(mz.range)
+
+points(rxy.rt, rxy.mz, pch="X", lwd=2, col="red")
+
+@
+
+\subsection{Localisation and quantification of detected peaks}
+
+With the information about their position in the combined datasets, 
+each individual mz/RT feature is then located in the raw data. Due 
+to the retention time correction, each feature is expected at the 
+same RT position as in the combined EIC. However small shifts in 
+retention time still occur for most of the peaks. In order to locate 
+the correct position of each feature, the EIC of the selected mass 
+is calculated for the whole retention time. This EIC is filtered 
+with CWT using only the scale where the feature was optimally 
+located on the combined EIC in step 3. Local maxima are calculated 
+on this transformed data and the maximum with the closest position 
+to the expected retention time is chosen.
+
+<<keep.source = TRUE, fig = FALSE>>=
+xs <- create_datamatrix(xs=xs, rxy=rxy)
+@
+
+\subsection{The Output}
+
+The output is a xcmsSet object including all necessary 
+information (peak location and peak area), for further data analysis 
+(statistics, metabolite database information).
+
+<<keep.source = TRUE, fig = FALSE>>=
+peaktable <- xcms::peakTable(xs)
+
+idx <- order(rowSums(peaktable[,8:19]), decreasing=TRUE)
+head(peaktable[idx,])
+
+@
+
+
+\section{Session information}
+An overview of the package versions used to produce this document are shown below.
+<<sessioninfo, results=tex, echo=FALSE>>=
+toLatex(sessionInfo())
+@
+
+\bibliography{cosmiq}
+\end{multicols}
+
+
+%\vspace{-0.5cm}
+\resizebox{1.0\textwidth}{!}
+{
+Contact: 
+$^\diamond$
+ETHZ\texttt{|}UZH,
+Functional Genomics Center Zurich,
+Winterthurerstr. 190,
+CH-8057 Zurich,
+SWITZERLAND,
+Phone: +41 44 635 39 10,
+Fax: +41 44 635 39 22,
+EMail: \url{staffproteomics@fgcz.ethz.ch},
+URL: \url{http://bioconductor.org/packages/msqc1/};~
+$\ddag$~David Fischer,
+} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
