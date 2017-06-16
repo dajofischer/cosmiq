@@ -465,8 +465,8 @@ SWITZERLAND,
 Phone: +41 44 635 39 12,
 Fax: +41 44 635 39 22,
 EMail: \url{cp@fgcz.ethz.ch},
-URL: \url{http://bioconductor.org/packages/msqc1/};~
-$\ddag$~David Fischer, Evolva SA, Basel, SWITZERLAND
+URL: \url{http://bioconductor.org/packages/cosmiq/};~
+$\ddag$~David Fischer, Evolva SA, Basel, SWITZERLAND.
 } 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
