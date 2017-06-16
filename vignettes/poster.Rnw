@@ -9,16 +9,11 @@
 \usepackage{float}
 \usepackage{subfigure}
 \usepackage{url}
-%\usepackage{hyperref}
 \usepackage[latin1]{inputenc}
-%\usepackage[authoryear,round]{natbib}
 \usepackage{sidecap}
 \usepackage[scaled]{helvet}
 \usepackage[latin1]{inputenc}
 \graphicspath{{./graphics/}}
-
-%\makesavenoteenv{tabular}
-
 
 \addtolength{\textwidth}{1cm}
 \addtolength{\oddsidemargin}{-1cm}
@@ -59,15 +54,6 @@
         {1mm}%                              % the afterskip
         {\color{NTNUBlue}\bfseries}}% % the style
 \makeatother
-
-\def\subfigtopskip{-1pt}       % Length from the top of the subfigure box to
-                               %   the begining of the FIGURE box.
-\def\subfigbottomskip{-1pt}    % Length from the bottom of the CAPTION to
-                               %   the bottom of the subfigure.
-\def\subfigcapskip{-1pt}       % Length from the bottom of the FIGURE to the
-                               %   begining of the CAPTION.
-\def\subfigcapmargin{-1pt}     % Indentation of the caption from the sides
-                               %   of the subfigure box.
 
 %\renewcommand{\normalsize}{\fontsize{24.88}{30}\selectfont}
 %\renewcommand{\normalsize}{\fontsize{20.74}{25}\selectfont}
@@ -186,6 +172,7 @@ options(width=80)
 @
 
 \section{LCMS feature detection step by step using cosmiq}
+
 \subsection{The Input}
 
 The faah knockout dataset \cite{faahKO} will be used as input.
