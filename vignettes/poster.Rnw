@@ -1,4 +1,5 @@
-%\VignetteIndexEntry{13th Annual Conference of the Metabolomics Society (in portrait)}
+%\VignetteIndexEntry{13th Annual Conference of the Metabolomics Society poster (in portrait)}
+\pdfminorversion=4
 \documentclass[portrait,a0]{a0poster}
 
 \usepackage{multicol}
@@ -100,7 +101,10 @@ options(prompt = "R> ", continue = "+  ", width = 60, useFancyQuotes = FALSE)
 
 \end{center}
 \vspace{1.5cm}
-\begin{multicols}{4}
+\begin{multicols}{2}
+\setlength{\columnseprule}{1pt}
+
+\begin{multicols}{2}
 \setlength{\columnseprule}{1pt}
 
 
@@ -109,14 +113,13 @@ options(prompt = "R> ", continue = "+  ", width = 60, useFancyQuotes = FALSE)
 \Biocpkg{cosmiq} is a tool for the preprocessing of liquid- or 
 gas-chromatography mass spectrometry (LCMS/GCMS) data with a focus 
 on metabolomics or lipidomics applications. 
-The bioconductor package has been 
+The Bioconductor package \cite{BioCcosmiq2017} has been 
 developed and has shown to be effective using liquid 
 ultra performance capillary chromatography 
 coupled with high accuracy mass data ({\em full width at half maximum} 
-> 20000), e.g. using TOF or Q-TOF type mass spectrometer. The 
+> 20000), e.g., by using TOF or Q-TOF type mass spectrometer. The 
 data we have used consists of one hundreds files having a size of 
-approx. 500MBytes each (see also 
-\cite[to be published]{DavidFischerPhd2014}).
+approx. 500MBytes each (see also \cite{DavidFischerPhd2014}).
 
 Because those high-resolution data are too huge for beeing included 
 in the package we will demonstrate the usage of the \Biocpkg{cosmiq} 
@@ -263,7 +266,8 @@ xy <- peakdetection(x=x$mz, y=x$intensity,
 id.peakcenter<-xy[,4]
 
 filter.mz <- 400 < x$mz & x$mz < 450
-plot(x$mz[filter.mz], x$intensity[filter.mz], 
+plot(x$mz[filter.mz], 
+    x$intensity[filter.mz], 
     main='Detection of relevant masses',
     type='l',
     xlab='m/Z', 
@@ -278,6 +282,8 @@ points(x$mz[id.peakcenter],
 	\includegraphics{graphics/cosmiq-plot2}
 }
 
+\end{multicols}
+\begin{multicols}{2}
 \subsection{Generation and combination of extracted ion chromatograms}
 
 Until now only the mz information was considered. In the following 
@@ -325,9 +331,9 @@ all samples it is not necessary to align features between different
 LCMS runs as for a typical raw data processing workflow. Instead, a 
 data matrix with intensity values for every mz/RT feature and every 
 sample can be immediately calculated.
-
+An example can bee seen in Figure~\ref{fig:output}.
 %TODO:fig
-<<label=image, keep.source = TRUE, fig = TRUE, include = FALSE>>=
+<<label=image, echo=FALSE, fig = TRUE, include = FALSE, height=4, width=8>>=
 eicmat <- 
 eicmatrix(xs=xs, xy=xy, center=1)
 
@@ -341,9 +347,7 @@ eicmat.filter <-
 eicmat[eicmat.mz.range[1]:
 eicmat.mz.range[2], ]
 
-xy.filter <- 
-xy[eicmat.mz.range[1]:
-eicmat.mz.range[2], ]
+xy.filter <- xy[eicmat.mz.range[1]:eicmat.mz.range[2], ]
 
 # determine the new range and 
 # plot the mz versus RT map
@@ -353,26 +357,31 @@ range(as.double(colnames(eicmat.filter))))
 range(as.double(row.names(eicmat.filter))))
 
 image(log(t(eicmat.filter))/log(2), 
-    main='overlay of 12 samples using faahKO',
-    col=rev(gray(1:20/20)),
-    xlab='rt [in seconds]', 
-    ylab='m/z', axes=FALSE)
+    main = 'overlay of 12
+    samples using faahKO',
+    col = rev(gray(1:20/20)),
+    xlab = 'rt [in seconds]', 
+    ylab = 'm/z', 
+    axes = FALSE)
 
 axis(1, seq(0,1, length=6), 
     round(seq(rt.range[1], 
-    rt.range[2], length=6)))
+    rt.range[2], 
+    length = 6)))
 
-axis(2, seq(0,1, length=4), 
+axis(2, seq(0,1, length = 4), 
     round(seq(mz.range[1], 
-    mz.range[2], length=4), 2))
+    mz.range[2], 
+    length = 4), 2))
 
 #
 # determine the chromatographic peaks
 rxy <- retention_time(xs=xs, 
-    RTscales=c(1:10, seq(12,32, by=2)), 
-    xy=xy.filter, 
-    eicmatrix=eicmat.filter, 
-    RTSNR.Th=120, RTSNR.area=20)
+    RTscales = c(1:10, seq(12,32, by = 2)), 
+    xy = xy.filter, 
+    eicmatrix = eicmat.filter, 
+    RTSNR.Th = 120, 
+    RTSNR.area = 20)
 
 rxy.rt <- 
 (rxy[,4] - rt.range[1]) / diff(rt.range)
@@ -381,11 +390,10 @@ rxy.mz <-
 (rxy[,1] - mz.range[1]) / diff(mz.range)
 
 points(rxy.rt, rxy.mz, 
-	pch="X", lwd=2, col="red")
+	pch = 16, 
+	lwd = 2, 
+	col = rgb(0.9, 0.1, 0.1, alpha=0.5))
 @
-\resizebox{1.0\columnwidth}{!}{
-	\includegraphics{graphics/cosmiq-image}
-}
 
 \subsection{Localisation and quantification of detected peaks}
 
@@ -402,8 +410,8 @@ on this transformed data and the maximum with the closest position
 to the expected retention time is chosen.
 
 <<keep.source = TRUE, fig = FALSE>>=
-xs <- create_datamatrix(xs=xs,
-	rxy=rxy)
+xs <- create_datamatrix(xs = xs,
+	rxy = rxy)
 @
 
 \subsection{The Output}
@@ -411,34 +419,36 @@ xs <- create_datamatrix(xs=xs,
 The output is a xcmsSet object including all necessary 
 information (peak location and peak area), for further data analysis 
 (statistics, metabolite database information).
-
-<<keep.source = TRUE, fig = FALSE>>=
+The output is visible in Table~\ref{Table:xtable1} and can be 
+extracted by using the followning command.
+<<>>=
 peaktable <- xcms::peakTable(xs)
-
-idx <- order(rowSums(peaktable[,8:19]), 
-	decreasing=TRUE)
 @
 
-<<xtable1, results=tex, echo=TRUE>>=
+<<echo=FALSE>>=
+idx <- order(rowSums(peaktable[,8:19]), decreasing=TRUE)
+@
+
+\bibliography{cosmiq}
+\end{multicols}
+
+\begin{figure}[H]
+\includegraphics[width=\columnwidth]{graphics/cosmiq-image}
+\caption{A ``feature map'', generated by using \Biocexptpkg{cosmiq}, of the \Biocexptpkg{faahKO} data is shown.}
+\label{fig:output}
+\end{figure}
+
+<<xtable1, results=tex, echo=FALSE>>=
 library(xtable)
 xtab <- peaktable[idx[1:20], ]
-print.xtable(xtable(xtab, caption="Result", 
+print.xtable(xtable(xtab, 
+  caption="The spreadsheet shows the top 20 most intense rows (\\Rcode{order(rowSums(peaktable[,8:19]), decreasing=TRUE)}) of the \\Rcode{peakTable} result.", 
 	label="Table:xtable1", 
 	include.rownames=FALSE), 
 	table.placement = "H",
-	scalebox="0.25")
+	scalebox="0.50")
 @
 
-
-
-%\section{Session information}
-%An overview of the package versions used to produce this document are shown below.
-%<<sessioninfo, results=tex, echo=FALSE>>=
-%toLatex(sessionInfo())
-%@
-
-%\bibliographystyle{plain}
-\bibliography{cosmiq}
 \end{multicols}
 
 
