@@ -1,4 +1,4 @@
-%\VignetteIndexEntry{13th Annual Conference of the Metabolomics Society 2017 poster (in portrait)}
+%\VignetteIndexEntry{13th Annual Conference of the Metabolomics Society 2017 poster #50}
 \pdfminorversion=4
 \documentclass[portrait,a0]{a0poster}
 \usepackage{multicol}

@@ -2,7 +2,7 @@
 
 \title{News for Package 'cosmiq'}
 
-\section{CHANGES UNTIL VERSION 1.11.1 (2017-06-16)}{
+\section{CHANGES UNTIL VERSION 1.11.3 (2017-06-19)}{
 \itemize{
   \item added \code{vignettes/poster.Rmd} for 
   13th Annual Conference of the Metabolomics Society \url{metabolomics2017.org}
