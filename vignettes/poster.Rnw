@@ -71,7 +71,7 @@
 
 
 <<style-Sweave, eval=TRUE, echo=FALSE, results=tex>>=
-BiocStyle::latex()
+BiocStyle::latex_old()
 options(prompt = "R> ", continue = "+  ", width = 60, useFancyQuotes = FALSE)
 @
 
