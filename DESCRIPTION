@@ -1,7 +1,7 @@
 Package: cosmiq
 Type: Package
 Title: cosmiq - COmbining Single Masses Into Quantities
-Version: 1.17.0
+Version: 1.17.1
 Author: David Fischer <dajofischer@googlemail.com>, Christian Panse
         <cp@fgcz.ethz.ch>, Endre Laczko <endre.laczko@fgcz.uzh.ch>
 Maintainer: David Fischer <dajofischer@googlemail.com>, Christian Panse
@@ -26,4 +26,4 @@ URL: http://www.bioconductor.org/packages/devel/bioc/html/cosmiq.html
 Collate: combine_spectra.R peakdetection.R eicmatrix.R retention_time.R
         quantify_combined.R create_datamatrix.R cosmiq.R
 LazyData: false
-biocViews: MassSpectrometry, Metabolomics
+biocViews: ImmunoOncology, MassSpectrometry, Metabolomics
