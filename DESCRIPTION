@@ -1,12 +1,18 @@
 Package: cosmiq
 Type: Package
 Title: cosmiq - COmbining Single Masses Into Quantities
-Version: 1.19.0
-Author: David Fischer <dajofischer@googlemail.com>, Christian Panse
-        <cp@fgcz.ethz.ch>, Endre Laczko <endre.laczko@fgcz.uzh.ch>
-Maintainer: David Fischer <dajofischer@googlemail.com>, Christian Panse
-        <cp@fgcz.ethz.ch>
-Depends: R (>= 3.0.2), Rcpp
+Version: 1.19.1
+Authors@R: c(person("David", "Fischer",
+    email = "dajofischer@googlemail.com",
+    role = c("aut", "cre")),
+    person("Christian", "Panse",
+    email = "cp@fgcz.ethz.ch",
+    role = c("aut"),
+    comment = c(ORCID = "0000-0003-1975-3064")),
+    person("Endre", "Laczko",
+    email = "cp@fgcz.ethz.ch",
+    role = c("ctb")))
+Depends: R (>= 3.6), Rcpp
 Imports: pracma, xcms, MassSpecWavelet, faahKO
 Suggests: RUnit, BiocGenerics, BiocStyle
 Description: cosmiq is a tool for the preprocessing of liquid- or gas -
