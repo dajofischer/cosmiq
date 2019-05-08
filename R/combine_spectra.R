@@ -15,6 +15,15 @@ function (xs, mzbin = 0.003, linear = FALSE, continuum = FALSE)
         range = (p1 * (xr^2)) + (p2 * xr)
         range = mzrange[1] + range * (mzrange[2] - mzrange[1])
     }
+    
+    # edit borders of range vector, if they don't match with mzrange borders
+    if (range[1] > mzrange[1]){
+      range = c(mzrange[1],range)
+    }
+    if (tail(range, n=1) < mzrange[2]){
+      range = c(range,mzrange[2])
+    }
+    
     if (continuum == TRUE) {
         range <- sort(unique(a@env$mz))
         range <- range[c(1:(length(range) - 1))] 
